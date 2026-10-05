@@ -1,0 +1,10 @@
+{
+  "library": "Fenmoor public library",
+  "records": [
+    { "system": "loans", "store": "members", "field": "name", "category": "identity", "subjects": "members", "purpose": "lending", "lawfulBasis": "public task", "retention": "2 years after the membership ends", "processor": "internal", "location": "NL", "owner": "lending-team" },
+    { "system": "loans", "store": "members", "field": "email", "category": "contact", "subjects": "members", "purpose": "due date reminders", "lawfulBasis": "public task", "retention": "2 years after the membership ends", "processor": "Notifyhub", "agreement": "DPA-3", "location": "NL", "recipientLocation": "Switzerland", "safeguard": "adequacy decision", "owner": "lending-team" },
+    { "system": "loans", "store": "members", "field": "reading support needs", "category": "health", "subjects": "members", "purpose": "large print and audio loans", "lawfulBasis": "public task", "specialCondition": "9(2)(g) substantial public interest", "retention": "P2Y", "location": "NL", "owner": "lending-team" },
+    { "system": "events", "store": "bookings", "field": "phone number", "category": "contact", "subjects": "visitors", "purpose": "event reminders", "lawfulBasis": "consent", "consentReference": "booking form tick box", "retention": "30 days after the event", "processor": "Ticketfold", "agreement": "DPA-7", "location": "NL", "recipientLocation": "US", "safeguard": ["SCCs"], "owner": "events-team" },
+    { "system": "website", "store": "logs", "field": "ip address", "category": "online identifier", "subjects": "visitors", "purpose": "security monitoring", "lawfulBasis": "legitimate interests", "retention": "14 days", "location": "EU", "owner": "it-team" }
+  ]
+}

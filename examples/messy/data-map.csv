@@ -1,0 +1,19 @@
+system,store,field,category,data subjects,purpose,lawful basis,article 9 condition,retention,processor,agreement,storage country,recipient country,transfer safeguard,consent reference,owner,notes
+shop,customers,email,contact,customers,order confirmations,contract,,6 years after the last order,Postmarkly,DPA-014,Ireland,US,SCCs,,shop-team,
+shop,customers,delivery address,contact; location,customers,delivery,Art. 6(1)(b),,deleted permanently after 2 years,Parcelroute,DPA-021,DE,DE,,,shop-team,
+shop,customers,date of birth,identity,customers,age check,,,until the account is closed,,,DE,,,,shop-team,
+shop,customers,marketing opt-in,contact,customers,newsletter,consent,,24 months,Mailcrate,DPA-030,DE,US,adequacy decision,,marketing-team,
+shop,orders,card token,financial,customers,payment,contract,,P13M,Paybridge,,NL,NL,,,payments-team,
+shop,orders,card token,financial,customers,payment,contract,,P13M,Paybridge,DPA-008,NL,NL,,,payments-team,second export
+shop,customers,gift note address,contact,gift recipients,gift delivery abroad,contract,,30 days,Parcelroute,DPA-021,DE,Morocco,Art. 49(1)(b),,shop-team,
+hr,staff,sick notes,health records,employees,absence management,legal obligation,,6 years,internal,,DE,,,,hr-team,
+hr,staff,union dues,trade union membership,employees,payroll deduction,legal obligation,9(2)(b) employment law,6 years,,,DE,,,,hr-team,
+hr,staff,background check,criminal records,employees,vetting for cash handling,legal obligation,,1 year,Vetwell,DPA-044,UK,UK,adequacy decision,,hr-team,
+hr,staff,face photo,biometric,employees,door access,legitimate interests,9(2)(b) employment law,forever,,,DE,,,,facilities-team,
+support,tickets,call notes,contact,customers,,legitimate interests,,90 days,Helpdeskio,DPA-051,Germny,,,,support-team,
+support,tickets,phone number,contact,customers,call back,legitimate interest,,30 days,Callhub,DPA-052,DE,India,,,,
+support,tickets,customer id,identity,customers,ticket routing,goodwill,,30 days,,,DE,,,,support-team,
+analytics,events,device id,online identifier,visitors,usage statistics,legitimate interests,,13 months,Statlane,DPA-060,eu-central-1,Singapore,Privacy Shield,,analytics-team,
+analytics,events,ip address,,visitors,fraud detection,legitimate interests,,7 days,,,,,,,analytics-team,
+marketing,leads,interests,contact,prospects,ads,consent,,6 months,,,DE,,,cookie banner v3,marketing-team,
+legacy,crm,fax

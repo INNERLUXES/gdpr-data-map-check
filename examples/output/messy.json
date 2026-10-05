@@ -1,0 +1,858 @@
+{
+  "tool": "gdpr-data-map-check",
+  "version": "1.0.0",
+  "input": {
+    "paths": [
+      "examples/messy/data-map.csv"
+    ],
+    "files": [
+      {
+        "file": "examples/messy/data-map.csv",
+        "kind": "csv",
+        "read": true,
+        "rows": 18,
+        "records": 17
+      }
+    ],
+    "byKind": {
+      "csv": 1,
+      "json": 0
+    }
+  },
+  "config": {
+    "file": "examples/config.json",
+    "name": "Brindlewick data map",
+    "lawfulBasisAliases": {
+      "6 1 a": "consent",
+      "6 1 b": "contract",
+      "performance of a contract": "contract",
+      "contractual necessity": "contract",
+      "6 1 c": "legal obligation",
+      "compliance with a legal obligation": "legal obligation",
+      "6 1 d": "vital interests",
+      "vital interest": "vital interests",
+      "6 1 e": "public task",
+      "public interest": "public task",
+      "official authority": "public task",
+      "6 1 f": "legitimate interests",
+      "legitimate interest": "legitimate interests"
+    },
+    "categoryAliases": {
+      "race": "racial or ethnic origin",
+      "racial": "racial or ethnic origin",
+      "racial origin": "racial or ethnic origin",
+      "ethnic": "racial or ethnic origin",
+      "ethnicity": "racial or ethnic origin",
+      "ethnic origin": "racial or ethnic origin",
+      "political": "political opinions",
+      "political opinion": "political opinions",
+      "religion": "religious or philosophical beliefs",
+      "religious": "religious or philosophical beliefs",
+      "religious beliefs": "religious or philosophical beliefs",
+      "philosophical beliefs": "religious or philosophical beliefs",
+      "trade union": "trade union membership",
+      "genetic": "genetic data",
+      "biometric": "biometric data",
+      "biometrics": "biometric data",
+      "health data": "health",
+      "data concerning health": "health",
+      "medical": "health",
+      "sex life": "sex life or sexual orientation",
+      "sexual orientation": "sex life or sexual orientation",
+      "sex life or orientation": "sex life or sexual orientation",
+      "criminal": "criminal convictions and offences",
+      "criminal offences": "criminal convictions and offences",
+      "criminal offence": "criminal convictions and offences",
+      "criminal convictions": "criminal convictions and offences",
+      "criminal records": "criminal convictions and offences"
+    },
+    "locationAliases": {
+      "eu central 1": "DE"
+    },
+    "requireConsentReference": true,
+    "minSeverity": "info",
+    "failOn": "warning",
+    "rules": [
+      {
+        "id": "missing-purpose",
+        "key": "missingPurpose",
+        "level": "error",
+        "rule": "a record with an empty purpose, or a data map with no purpose column"
+      },
+      {
+        "id": "missing-lawful-basis",
+        "key": "missingLawfulBasis",
+        "level": "error",
+        "rule": "a record with an empty lawful basis, or a data map with no lawful basis column"
+      },
+      {
+        "id": "unknown-lawful-basis",
+        "key": "unknownLawfulBasis",
+        "level": "error",
+        "rule": "a lawful basis that is none of consent, contract, legal obligation, vital interests, public task, legitimate interests and the 13 aliases of the configuration"
+      },
+      {
+        "id": "missing-category",
+        "key": "missingCategory",
+        "level": "warning",
+        "rule": "a record with an empty category, or a data map with no category column"
+      },
+      {
+        "id": "special-category-without-condition",
+        "key": "specialCategoryWithoutCondition",
+        "level": "error",
+        "rule": "a record whose category is one of the eight special categories of Article 9(1), or one of the 22 aliases for them, with an empty special category condition"
+      },
+      {
+        "id": "criminal-offence-data",
+        "key": "criminalOffenceData",
+        "level": "warning",
+        "rule": "a record whose category is criminal convictions and offences, or an alias for it"
+      },
+      {
+        "id": "missing-retention",
+        "key": "missingRetention",
+        "level": "error",
+        "rule": "a record with an empty retention, or a data map with no retention column"
+      },
+      {
+        "id": "open-ended-retention",
+        "key": "openEndedRetention",
+        "level": "error",
+        "rule": "a retention that says the data is kept with no end"
+      },
+      {
+        "id": "unclear-retention",
+        "key": "unclearRetention",
+        "level": "warning",
+        "rule": "a retention that names no period the tool can read and no word for an open end"
+      },
+      {
+        "id": "missing-location",
+        "key": "missingLocation",
+        "level": "warning",
+        "rule": "a record with an empty storage location, or a data map with no location column"
+      },
+      {
+        "id": "transfer-without-safeguard",
+        "key": "transferWithoutSafeguard",
+        "level": "error",
+        "rule": "a record stored in or sent to a place outside the EU/EEA, with an empty transfer safeguard; places named by the 1 alias of the configuration are read as their codes"
+      },
+      {
+        "id": "unknown-safeguard",
+        "key": "unknownSafeguard",
+        "level": "error",
+        "rule": "a transfer whose safeguard holds a name that is not one of Articles 45, 46, 47 or 49"
+      },
+      {
+        "id": "adequacy-unconfirmed",
+        "key": "adequacyUnconfirmed",
+        "level": "warning",
+        "rule": "a transfer on an adequacy decision to a place with no decision on the list the tool knows, or with a decision of limited scope"
+      },
+      {
+        "id": "derogation-transfer",
+        "key": "derogationTransfer",
+        "level": "info",
+        "rule": "a transfer whose only safeguard is a derogation for a specific situation"
+      },
+      {
+        "id": "consent-without-reference",
+        "key": "consentWithoutReference",
+        "level": "warning",
+        "rule": "a record with consent among its lawful bases and an empty consent reference"
+      },
+      {
+        "id": "processor-without-agreement",
+        "key": "processorWithoutAgreement",
+        "level": "warning",
+        "rule": "a record that names a processor or recipient and no agreement reference"
+      },
+      {
+        "id": "missing-owner",
+        "key": "missingOwner",
+        "level": "warning",
+        "rule": "a record with an empty owner, or a data map with no owner column"
+      },
+      {
+        "id": "duplicate-row",
+        "key": "duplicateRow",
+        "level": "warning",
+        "rule": "a record whose system, store, field and purpose an earlier record already has"
+      },
+      {
+        "id": "invalid-record",
+        "key": null,
+        "level": "error",
+        "rule": "a record of the data map with no field, the wrong number of fields or a value of the wrong kind"
+      },
+      {
+        "id": "unreadable-file",
+        "key": null,
+        "level": "error",
+        "rule": "a data map that the tool could not read as UTF-8 text"
+      },
+      {
+        "id": "unparsable-file",
+        "key": null,
+        "level": "error",
+        "rule": "a data map that the CSV or JSON reader refuses, or whose header or shape is not that of a data map"
+      }
+    ]
+  },
+  "map": {
+    "records": 17,
+    "systems": [
+      {
+        "system": "shop",
+        "records": 7,
+        "special": 0,
+        "criminal": 0,
+        "transfers": 3,
+        "findings": 7
+      },
+      {
+        "system": "hr",
+        "records": 4,
+        "special": 3,
+        "criminal": 1,
+        "transfers": 1,
+        "findings": 3
+      },
+      {
+        "system": "support",
+        "records": 3,
+        "special": 0,
+        "criminal": 0,
+        "transfers": 2,
+        "findings": 5
+      },
+      {
+        "system": "analytics",
+        "records": 2,
+        "special": 0,
+        "criminal": 0,
+        "transfers": 1,
+        "findings": 3
+      },
+      {
+        "system": "marketing",
+        "records": 1,
+        "special": 0,
+        "criminal": 0,
+        "transfers": 0,
+        "findings": 0
+      }
+    ],
+    "byBasis": {
+      "consent": 2,
+      "contract": 5,
+      "legal obligation": 3,
+      "vital interests": 0,
+      "public task": 0,
+      "legitimate interests": 5,
+      "none": 1,
+      "unknown": 1
+    },
+    "byCategory": {
+      "racial or ethnic origin": 0,
+      "political opinions": 0,
+      "religious or philosophical beliefs": 0,
+      "trade union membership": 1,
+      "genetic data": 0,
+      "biometric data": 1,
+      "health": 1,
+      "sex life or sexual orientation": 0,
+      "criminal convictions and offences": 1
+    },
+    "special": 3,
+    "criminal": 1,
+    "processors": 10,
+    "transfers": [
+      {
+        "system": "shop",
+        "store": "customers",
+        "field": "email",
+        "file": "examples/messy/data-map.csv",
+        "line": 2,
+        "to": [
+          "US"
+        ],
+        "safeguard": "SCCs"
+      },
+      {
+        "system": "shop",
+        "store": "customers",
+        "field": "marketing opt-in",
+        "file": "examples/messy/data-map.csv",
+        "line": 5,
+        "to": [
+          "US"
+        ],
+        "safeguard": "adequacy decision"
+      },
+      {
+        "system": "shop",
+        "store": "customers",
+        "field": "gift note address",
+        "file": "examples/messy/data-map.csv",
+        "line": 8,
+        "to": [
+          "Morocco"
+        ],
+        "safeguard": "Art. 49(1)(b)"
+      },
+      {
+        "system": "hr",
+        "store": "staff",
+        "field": "background check",
+        "file": "examples/messy/data-map.csv",
+        "line": 11,
+        "to": [
+          "UK (GB)"
+        ],
+        "safeguard": "adequacy decision"
+      },
+      {
+        "system": "support",
+        "store": "tickets",
+        "field": "call notes",
+        "file": "examples/messy/data-map.csv",
+        "line": 13,
+        "to": [
+          "Germny"
+        ],
+        "safeguard": ""
+      },
+      {
+        "system": "support",
+        "store": "tickets",
+        "field": "phone number",
+        "file": "examples/messy/data-map.csv",
+        "line": 14,
+        "to": [
+          "India"
+        ],
+        "safeguard": ""
+      },
+      {
+        "system": "analytics",
+        "store": "events",
+        "field": "device id",
+        "file": "examples/messy/data-map.csv",
+        "line": 16,
+        "to": [
+          "Singapore"
+        ],
+        "safeguard": "Privacy Shield"
+      }
+    ]
+  },
+  "findings": [
+    {
+      "rule": "missing-lawful-basis",
+      "level": "error",
+      "file": "examples/messy/data-map.csv",
+      "line": 4,
+      "column": 59,
+      "at": "examples/messy/data-map.csv:4",
+      "system": "shop",
+      "store": "customers",
+      "field": "date of birth",
+      "found": "the field \"date of birth\" of shop/customers has no lawful basis",
+      "fix": "name the lawful basis of Article 6(1) the processing rests on: consent, contract, legal obligation, vital interests, public task or legitimate interests",
+      "basis": [
+        {
+          "text": "processing is lawful only when at least one of six grounds applies: consent, a contract, a legal obligation, vital interests, a public task or legitimate interests",
+          "source": "Art. 6 GDPR, Lawfulness of processing (gdpr-info.eu)",
+          "url": "https://gdpr-info.eu/art-6-gdpr/"
+        }
+      ],
+      "own": "a lawful basis that is empty or a blank word; the tool checks that a basis is named, not that it fits the processing"
+    },
+    {
+      "rule": "special-category-without-condition",
+      "level": "error",
+      "file": "examples/messy/data-map.csv",
+      "line": 9,
+      "column": 82,
+      "at": "examples/messy/data-map.csv:9",
+      "system": "hr",
+      "store": "staff",
+      "field": "sick notes",
+      "found": "the field \"sick notes\" of hr/staff is special category data (health) and names no condition of Article 9(2)",
+      "fix": "name the condition of Article 9(2) the processing rests on, such as explicit consent, employment law or health care, or stop collecting the field",
+      "basis": [
+        {
+          "text": "processing data that reveals racial or ethnic origin, political opinions, religious or philosophical beliefs or trade union membership, and genetic, biometric, health and sex life or sexual orientation data, is prohibited unless a condition of Article 9(2) applies",
+          "source": "Art. 9 GDPR, Processing of special categories of personal data (gdpr-info.eu)",
+          "url": "https://gdpr-info.eu/art-9-gdpr/"
+        },
+        {
+          "text": "the conditions of Article 9(2) include explicit consent, employment and social protection law, vital interests, data made public by the person, legal claims, substantial public interest, health care, public health and research",
+          "source": "Art. 9 GDPR, Processing of special categories of personal data (gdpr-info.eu)",
+          "url": "https://gdpr-info.eu/art-9-gdpr/"
+        },
+        {
+          "text": "the regulation defines genetic data, biometric data that identifies a person through technical processing, and data concerning health, which includes information on health care that reveals the state of health",
+          "source": "Art. 4 GDPR, Definitions (gdpr-info.eu)",
+          "url": "https://gdpr-info.eu/art-4-gdpr/"
+        }
+      ],
+      "own": "a category is special when its name, an alias, or the longest name or alias it holds as whole words is one of Article 9(1), so \"health records\" is health; an alias set to other marks a word as ordinary data; any text in the condition column counts as a condition, the tool cannot tell whether it applies"
+    },
+    {
+      "rule": "open-ended-retention",
+      "level": "error",
+      "file": "examples/messy/data-map.csv",
+      "line": 12,
+      "column": 97,
+      "at": "examples/messy/data-map.csv:12",
+      "system": "hr",
+      "store": "staff",
+      "field": "face photo",
+      "found": "the field \"face photo\" of hr/staff is kept \"forever\", with no end",
+      "fix": "set an end to the retention, or the event after which the data is erased, with a period",
+      "basis": [
+        {
+          "text": "personal data are kept in a form that identifies people for no longer than the purposes of the processing need",
+          "source": "Art. 5 GDPR, Principles relating to processing of personal data (gdpr-info.eu)",
+          "url": "https://gdpr-info.eu/art-5-gdpr/"
+        },
+        {
+          "text": "where possible, the record gives the time limits for erasure of each category of data",
+          "source": "Art. 30 GDPR, Records of processing activities (gdpr-info.eu)",
+          "url": "https://gdpr-info.eu/art-30-gdpr/"
+        }
+      ],
+      "own": "a retention with no period the tool can read and a word such as forever, never, indefinite, permanent, unlimited or until further notice; a text that also names a period, such as deleted permanently after 30 days, has an end"
+    },
+    {
+      "rule": "missing-purpose",
+      "level": "error",
+      "file": "examples/messy/data-map.csv",
+      "line": 13,
+      "column": 46,
+      "at": "examples/messy/data-map.csv:13",
+      "system": "support",
+      "store": "tickets",
+      "field": "call notes",
+      "found": "the field \"call notes\" of support/tickets has no purpose",
+      "fix": "write the specific purpose the field is collected and used for",
+      "basis": [
+        {
+          "text": "the record of processing activities holds the purposes of the processing, the categories of data subjects and of personal data, and the categories of recipients",
+          "source": "Art. 30 GDPR, Records of processing activities (gdpr-info.eu)",
+          "url": "https://gdpr-info.eu/art-30-gdpr/"
+        },
+        {
+          "text": "personal data are collected for specified, explicit and legitimate purposes and are not processed further in a way that does not fit those purposes",
+          "source": "Art. 5 GDPR, Principles relating to processing of personal data (gdpr-info.eu)",
+          "url": "https://gdpr-info.eu/art-5-gdpr/"
+        }
+      ],
+      "own": "a purpose that is empty or a blank word such as none, n/a or tbd; any other text counts as a purpose, the tool cannot tell whether it is specific or legitimate"
+    },
+    {
+      "rule": "transfer-without-safeguard",
+      "level": "error",
+      "file": "examples/messy/data-map.csv",
+      "line": 13,
+      "column": 104,
+      "at": "examples/messy/data-map.csv:13",
+      "system": "support",
+      "store": "tickets",
+      "field": "call notes",
+      "found": "the field \"call notes\" of support/tickets goes to Germny (not a place the tool knows, so taken as outside the EU/EEA, did you mean \"Germany\"?), outside the EU/EEA, with no transfer safeguard",
+      "fix": "name the safeguard of the transfer: an adequacy decision, standard contractual clauses, binding corporate rules or another safeguard of Article 46, or keep the data in the EU/EEA",
+      "basis": [
+        {
+          "text": "a transfer of personal data to a third country or an international organisation, onward transfers included, takes place only under the conditions of Chapter V, so that the protection of the regulation is not undermined",
+          "source": "Art. 44 GDPR, General principle for transfers (gdpr-info.eu)",
+          "url": "https://gdpr-info.eu/art-44-gdpr/"
+        },
+        {
+          "text": "without an adequacy decision, a transfer needs appropriate safeguards, such as binding corporate rules, standard data protection clauses, an approved code of conduct or certification, with enforceable rights for the people concerned",
+          "source": "Art. 46 GDPR, Transfers subject to appropriate safeguards (gdpr-info.eu)",
+          "url": "https://gdpr-info.eu/art-46-gdpr/"
+        },
+        {
+          "text": "the record names the transfers to a third country or an international organisation, with the safeguards where they are needed",
+          "source": "Art. 30 GDPR, Records of processing activities (gdpr-info.eu)",
+          "url": "https://gdpr-info.eu/art-30-gdpr/"
+        }
+      ],
+      "own": "a record is a transfer when its storage location or the location of its recipient names a place outside the EU/EEA; a place the tool does not know, a typo included, counts as outside, and the finding says so with a near name when there is one; a place of the EU/EEA is a country of src/countries.js, its code, EU, EEA or an alias of the configuration"
+    },
+    {
+      "rule": "transfer-without-safeguard",
+      "level": "error",
+      "file": "examples/messy/data-map.csv",
+      "line": 14,
+      "column": 112,
+      "at": "examples/messy/data-map.csv:14",
+      "system": "support",
+      "store": "tickets",
+      "field": "phone number",
+      "found": "the field \"phone number\" of support/tickets goes to India (not a place the tool knows, so taken as outside the EU/EEA), outside the EU/EEA, with no transfer safeguard",
+      "fix": "name the safeguard of the transfer: an adequacy decision, standard contractual clauses, binding corporate rules or another safeguard of Article 46, or keep the data in the EU/EEA",
+      "basis": [
+        {
+          "text": "a transfer of personal data to a third country or an international organisation, onward transfers included, takes place only under the conditions of Chapter V, so that the protection of the regulation is not undermined",
+          "source": "Art. 44 GDPR, General principle for transfers (gdpr-info.eu)",
+          "url": "https://gdpr-info.eu/art-44-gdpr/"
+        },
+        {
+          "text": "without an adequacy decision, a transfer needs appropriate safeguards, such as binding corporate rules, standard data protection clauses, an approved code of conduct or certification, with enforceable rights for the people concerned",
+          "source": "Art. 46 GDPR, Transfers subject to appropriate safeguards (gdpr-info.eu)",
+          "url": "https://gdpr-info.eu/art-46-gdpr/"
+        },
+        {
+          "text": "the record names the transfers to a third country or an international organisation, with the safeguards where they are needed",
+          "source": "Art. 30 GDPR, Records of processing activities (gdpr-info.eu)",
+          "url": "https://gdpr-info.eu/art-30-gdpr/"
+        }
+      ],
+      "own": "a record is a transfer when its storage location or the location of its recipient names a place outside the EU/EEA; a place the tool does not know, a typo included, counts as outside, and the finding says so with a near name when there is one; a place of the EU/EEA is a country of src/countries.js, its code, EU, EEA or an alias of the configuration"
+    },
+    {
+      "rule": "unknown-lawful-basis",
+      "level": "error",
+      "file": "examples/messy/data-map.csv",
+      "line": 15,
+      "column": 63,
+      "at": "examples/messy/data-map.csv:15",
+      "system": "support",
+      "store": "tickets",
+      "field": "customer id",
+      "found": "the field \"customer id\" of support/tickets has the lawful basis \"goodwill\", which is not one of the six of Article 6(1) or a known alias",
+      "fix": "write one of the six lawful bases, or add the words your team uses to lawfulBasisAliases in the configuration",
+      "basis": [
+        {
+          "text": "processing is lawful only when at least one of six grounds applies: consent, a contract, a legal obligation, vital interests, a public task or legitimate interests",
+          "source": "Art. 6 GDPR, Lawfulness of processing (gdpr-info.eu)",
+          "url": "https://gdpr-info.eu/art-6-gdpr/"
+        }
+      ],
+      "own": "a basis is compared with the letters A to Z lowered, every other character made a space and a leading article or art and a trailing gdpr left out, so \"Art. 6(1)(b)\" is contract; several bases are separated by semicolons, and one finding lists every unknown one of a record"
+    },
+    {
+      "rule": "unknown-safeguard",
+      "level": "error",
+      "file": "examples/messy/data-map.csv",
+      "line": 16,
+      "column": 144,
+      "at": "examples/messy/data-map.csv:16",
+      "system": "analytics",
+      "store": "events",
+      "field": "device id",
+      "found": "the field \"device id\" of analytics/events names the transfer safeguard \"Privacy Shield\", which is not an adequacy decision, a safeguard of Article 46 or a derogation of Article 49",
+      "fix": "write the safeguard as one the regulation names, such as SCCs, BCRs or adequacy decision",
+      "basis": [
+        {
+          "text": "a transfer may take place without a specific authorisation where the Commission has decided that the third country ensures an adequate level of protection",
+          "source": "Art. 45 GDPR, Transfers on the basis of an adequacy decision (gdpr-info.eu)",
+          "url": "https://gdpr-info.eu/art-45-gdpr/"
+        },
+        {
+          "text": "without an adequacy decision, a transfer needs appropriate safeguards, such as binding corporate rules, standard data protection clauses, an approved code of conduct or certification, with enforceable rights for the people concerned",
+          "source": "Art. 46 GDPR, Transfers subject to appropriate safeguards (gdpr-info.eu)",
+          "url": "https://gdpr-info.eu/art-46-gdpr/"
+        },
+        {
+          "text": "without an adequacy decision or appropriate safeguards, a transfer may rest only on a derogation for a specific situation, such as explicit consent to the transfer, a contract with the person or a legal claim",
+          "source": "Art. 49 GDPR, Derogations for specific situations (gdpr-info.eu)",
+          "url": "https://gdpr-info.eu/art-49-gdpr/"
+        }
+      ],
+      "own": "a safeguard is compared like a lawful basis; the known names are adequacy decision, the Data Privacy Framework, standard contractual clauses (SCCs), binding corporate rules (BCRs), a legally binding instrument, a code of conduct, certification, ad hoc contractual clauses or administrative arrangements, a derogation, and the articles and points of each; only a record that is a transfer is looked at"
+    },
+    {
+      "rule": "invalid-record",
+      "level": "error",
+      "file": "examples/messy/data-map.csv",
+      "line": 19,
+      "column": 1,
+      "at": "examples/messy/data-map.csv:19",
+      "system": "",
+      "store": "",
+      "field": "",
+      "found": "this row has 3 fields and the header has 17; the row is not checked",
+      "fix": "correct the record at the line named",
+      "basis": [
+        {
+          "text": "every line of a CSV file should hold the same number of fields",
+          "source": "RFC 4180, Common Format and MIME Type for Comma-Separated Values (CSV) Files",
+          "url": "https://www.rfc-editor.org/rfc/rfc4180"
+        },
+        {
+          "text": "the record of processing activities holds the purposes of the processing, the categories of data subjects and of personal data, and the categories of recipients",
+          "source": "Art. 30 GDPR, Records of processing activities (gdpr-info.eu)",
+          "url": "https://gdpr-info.eu/art-30-gdpr/"
+        }
+      ],
+      "own": "a record with no field, a CSV row with a different number of fields than the header, a JSON record that is not an object or names a field twice, is not checked; a value of the wrong kind is taken as empty; this rule cannot be set lower or off"
+    },
+    {
+      "rule": "unclear-retention",
+      "level": "warning",
+      "file": "examples/messy/data-map.csv",
+      "line": 4,
+      "column": 61,
+      "at": "examples/messy/data-map.csv:4",
+      "system": "shop",
+      "store": "customers",
+      "field": "date of birth",
+      "found": "the field \"date of birth\" of shop/customers has the retention \"until the account is closed\", in which the tool finds no period (a number with days, weeks, months or years, or an ISO 8601 duration)",
+      "fix": "write the period as a number with a unit, such as 90 days or 2 years after the last order",
+      "basis": [
+        {
+          "text": "where possible, the record gives the time limits for erasure of each category of data",
+          "source": "Art. 30 GDPR, Records of processing activities (gdpr-info.eu)",
+          "url": "https://gdpr-info.eu/art-30-gdpr/"
+        }
+      ],
+      "own": "a period is a whole number of up to four digits with a unit of days, weeks, months or years (d, w, m, y and their plurals), or an ISO 8601 duration such as P6M, anywhere in the text; a retention that names only an event, such as until the account is closed, or writes the number in words, is unclear; a warning, because the period may still be in the text"
+    },
+    {
+      "rule": "adequacy-unconfirmed",
+      "level": "warning",
+      "file": "examples/messy/data-map.csv",
+      "line": 5,
+      "column": 105,
+      "at": "examples/messy/data-map.csv:5",
+      "system": "shop",
+      "store": "customers",
+      "field": "marketing opt-in",
+      "found": "the field \"marketing opt-in\" of shop/customers goes to US on an adequacy decision, which covers only organisations certified under the EU-US Data Privacy Framework; check that the recipient is covered",
+      "fix": "check the adequacy page of the European Commission and the scope of the decision; for the United States, check that the recipient is certified under the Data Privacy Framework, or use another safeguard",
+      "basis": [
+        {
+          "text": "a transfer may take place without a specific authorisation where the Commission has decided that the third country ensures an adequate level of protection",
+          "source": "Art. 45 GDPR, Transfers on the basis of an adequacy decision (gdpr-info.eu)",
+          "url": "https://gdpr-info.eu/art-45-gdpr/"
+        },
+        {
+          "text": "the Commission lists the countries and territories it has recognised as adequate; the decision for Canada covers commercial organisations, and the one for the United States covers only organisations in the EU-US Data Privacy Framework",
+          "source": "Data protection adequacy for non-EU countries (European Commission)",
+          "url": "https://commission.europa.eu/law/law-topic/data-protection/international-dimension-data-protection/adequacy-decisions_en"
+        }
+      ],
+      "own": "only when the adequacy decision is the only safeguard named besides a derogation: one finding per place that is not on the list of src/countries.js, and one per place whose decision has a limited scope (Canada and the United States); a warning, because the list changes and the tool cannot see whether a recipient is covered"
+    },
+    {
+      "rule": "consent-without-reference",
+      "level": "warning",
+      "file": "examples/messy/data-map.csv",
+      "line": 5,
+      "column": 123,
+      "at": "examples/messy/data-map.csv:5",
+      "system": "shop",
+      "store": "customers",
+      "field": "marketing opt-in",
+      "found": "the field \"marketing opt-in\" of shop/customers rests on consent and names no consent mechanism or reference that shows how consent is recorded",
+      "fix": "name where consent is recorded and how it can be withdrawn, such as the consent banner, the form or the record that stores it",
+      "basis": [
+        {
+          "text": "where processing rests on consent, the controller must be able to show that the person consented, and the person may withdraw consent at any time",
+          "source": "Art. 7 GDPR, Conditions for consent (gdpr-info.eu)",
+          "url": "https://gdpr-info.eu/art-7-gdpr/"
+        },
+        {
+          "text": "processing is lawful only when at least one of six grounds applies: consent, a contract, a legal obligation, vital interests, a public task or legitimate interests",
+          "source": "Art. 6 GDPR, Lawfulness of processing (gdpr-info.eu)",
+          "url": "https://gdpr-info.eu/art-6-gdpr/"
+        }
+      ],
+      "own": "only with requireConsentReference set to true in the configuration; the tool checks that a mechanism or reference is named, not that consent was given"
+    },
+    {
+      "rule": "processor-without-agreement",
+      "level": "warning",
+      "file": "examples/messy/data-map.csv",
+      "line": 6,
+      "column": 77,
+      "at": "examples/messy/data-map.csv:6",
+      "system": "shop",
+      "store": "orders",
+      "field": "card token",
+      "found": "the field \"card token\" of shop/orders goes to the processor or recipient \"Paybridge\", and no agreement is named",
+      "fix": "name the data processing agreement or other contract with the processor, or write internal when no one outside handles the data",
+      "basis": [
+        {
+          "text": "processing by a processor is governed by a contract or another legal act that sets out the subject, duration, nature and purpose of the processing, the kinds of data, the people concerned and the duties of both sides",
+          "source": "Art. 28 GDPR, Processor (gdpr-info.eu)",
+          "url": "https://gdpr-info.eu/art-28-gdpr/"
+        },
+        {
+          "text": "a processor handles personal data on behalf of the controller, and a recipient is anyone to whom personal data are disclosed",
+          "source": "Art. 4 GDPR, Definitions (gdpr-info.eu)",
+          "url": "https://gdpr-info.eu/art-4-gdpr/"
+        }
+      ],
+      "own": "a processor that is not empty, a blank word, internal, in house, self or own staff, with an empty agreement; the tool cannot tell a processor from another recipient, so it asks for an agreement for both"
+    },
+    {
+      "rule": "duplicate-row",
+      "level": "warning",
+      "file": "examples/messy/data-map.csv",
+      "line": 7,
+      "column": 13,
+      "at": "examples/messy/data-map.csv:7",
+      "system": "shop",
+      "store": "orders",
+      "field": "card token",
+      "found": "the field \"card token\" of shop/orders is listed again with the same purpose; the first record is at examples/messy/data-map.csv:6",
+      "fix": "merge the two records into one, or write the purpose that tells them apart",
+      "basis": [
+        {
+          "text": "the record of processing activities holds the purposes of the processing, the categories of data subjects and of personal data, and the categories of recipients",
+          "source": "Art. 30 GDPR, Records of processing activities (gdpr-info.eu)",
+          "url": "https://gdpr-info.eu/art-30-gdpr/"
+        }
+      ],
+      "own": "two records with the same system, store, field and purpose, compared in their term form, in the order of the files and of the records in each; the later one is reported at its field and still checked"
+    },
+    {
+      "rule": "criminal-offence-data",
+      "level": "warning",
+      "file": "examples/messy/data-map.csv",
+      "line": 11,
+      "column": 27,
+      "at": "examples/messy/data-map.csv:11",
+      "system": "hr",
+      "store": "staff",
+      "field": "background check",
+      "found": "the field \"background check\" of hr/staff is data on criminal convictions and offences; Article 10 allows it only under official authority or a law that permits it, and the record names no such basis",
+      "fix": "check that the processing is under official authority or allowed by Union or Member State law, and name that law in the condition column",
+      "basis": [
+        {
+          "text": "data on criminal convictions and offences may be processed only under the control of official authority or when Union or Member State law allows it with safeguards for the people concerned",
+          "source": "Art. 10 GDPR, Processing of personal data relating to criminal convictions and offences (gdpr-info.eu)",
+          "url": "https://gdpr-info.eu/art-10-gdpr/"
+        }
+      ],
+      "own": "a warning for every such record, with or without a condition named, because Article 10 asks for official authority or a law that allows the processing, which the tool cannot check; the condition column is shown when it is filled"
+    },
+    {
+      "rule": "missing-owner",
+      "level": "warning",
+      "file": "examples/messy/data-map.csv",
+      "line": 14,
+      "column": 114,
+      "at": "examples/messy/data-map.csv:14",
+      "system": "support",
+      "store": "tickets",
+      "field": "phone number",
+      "found": "the field \"phone number\" of support/tickets has no owner",
+      "fix": "name the person or team who answers for the field and keeps its entry up to date",
+      "basis": [
+        {
+          "text": "the record names the controller with its contact details, and the data protection officer where there is one",
+          "source": "Art. 30 GDPR, Records of processing activities (gdpr-info.eu)",
+          "url": "https://gdpr-info.eu/art-30-gdpr/"
+        }
+      ],
+      "own": "an owner per field is the tool's own choice: the regulation asks the record to name the controller, and a field with no owner inside the organisation has no one to keep its entry right; any text counts as an owner"
+    },
+    {
+      "rule": "missing-category",
+      "level": "warning",
+      "file": "examples/messy/data-map.csv",
+      "line": 17,
+      "column": 29,
+      "at": "examples/messy/data-map.csv:17",
+      "system": "analytics",
+      "store": "events",
+      "field": "ip address",
+      "found": "the field \"ip address\" of analytics/events has no category, so the tool cannot tell whether it is special category data",
+      "fix": "write the category of the data, such as contact, identity, financial, location or health",
+      "basis": [
+        {
+          "text": "the record of processing activities holds the purposes of the processing, the categories of data subjects and of personal data, and the categories of recipients",
+          "source": "Art. 30 GDPR, Records of processing activities (gdpr-info.eu)",
+          "url": "https://gdpr-info.eu/art-30-gdpr/"
+        },
+        {
+          "text": "personal data is any information about an identified or identifiable natural person, such as a name, an identification number, location data or an online identifier",
+          "source": "Art. 4 GDPR, Definitions (gdpr-info.eu)",
+          "url": "https://gdpr-info.eu/art-4-gdpr/"
+        }
+      ],
+      "own": "a warning, because without a category the tool cannot tell whether the field is special category or criminal offence data, so those checks cannot look at it"
+    },
+    {
+      "rule": "missing-location",
+      "level": "warning",
+      "file": "examples/messy/data-map.csv",
+      "line": 17,
+      "column": 86,
+      "at": "examples/messy/data-map.csv:17",
+      "system": "analytics",
+      "store": "events",
+      "field": "ip address",
+      "found": "the field \"ip address\" of analytics/events has no storage location, so the tool cannot tell whether it leaves the EU/EEA",
+      "fix": "write the country where the data is stored, as a name or a two-letter code",
+      "basis": [
+        {
+          "text": "a transfer of personal data to a third country or an international organisation, onward transfers included, takes place only under the conditions of Chapter V, so that the protection of the regulation is not undermined",
+          "source": "Art. 44 GDPR, General principle for transfers (gdpr-info.eu)",
+          "url": "https://gdpr-info.eu/art-44-gdpr/"
+        },
+        {
+          "text": "the record names the transfers to a third country or an international organisation, with the safeguards where they are needed",
+          "source": "Art. 30 GDPR, Records of processing activities (gdpr-info.eu)",
+          "url": "https://gdpr-info.eu/art-30-gdpr/"
+        }
+      ],
+      "own": "a storage location that is empty or a blank word; a warning, because without it the tool cannot tell whether the data leaves the EU/EEA"
+    },
+    {
+      "rule": "derogation-transfer",
+      "level": "info",
+      "file": "examples/messy/data-map.csv",
+      "line": 8,
+      "column": 128,
+      "at": "examples/messy/data-map.csv:8",
+      "system": "shop",
+      "store": "customers",
+      "field": "gift note address",
+      "found": "the field \"gift note address\" of shop/customers goes to Morocco on a derogation of Article 49, which is meant for a specific situation and not for a regular transfer",
+      "fix": "check that the transfer is occasional and fits one of the situations of Article 49(1), or put an adequacy decision or a safeguard of Article 46 in place",
+      "basis": [
+        {
+          "text": "without an adequacy decision or appropriate safeguards, a transfer may rest only on a derogation for a specific situation, such as explicit consent to the transfer, a contract with the person or a legal claim",
+          "source": "Art. 49 GDPR, Derogations for specific situations (gdpr-info.eu)",
+          "url": "https://gdpr-info.eu/art-49-gdpr/"
+        }
+      ],
+      "own": "only when a derogation is the only safeguard named; info by default, because a derogation can be right for an occasional transfer, but a field in a data map is usually transferred again and again"
+    }
+  ],
+  "totals": {
+    "findings": 19,
+    "byLevel": {
+      "error": 9,
+      "warning": 9,
+      "info": 1
+    },
+    "hidden": 0,
+    "notListed": 0
+  },
+  "result": {
+    "pass": false,
+    "failOn": "warning",
+    "failing": 18,
+    "byLevel": {
+      "error": 9,
+      "warning": 9,
+      "info": 1
+    },
+    "text": "FAIL - 18 findings at or above warning (9 error, 9 warning, 1 info)"
+  },
+  "notes": [
+    "examples/messy/data-map.csv: 1 column the tool does not read was left out: \"notes\""
+  ],
+  "notice": "This check reads the data map as it is written. It is an engineering aid, not legal advice: it does not see the data itself, decide whether a lawful basis, an Article 9 condition or a transfer safeguard fits the processing, or replace a review by your data protection officer or a lawyer (docs/limits.md)."
+}

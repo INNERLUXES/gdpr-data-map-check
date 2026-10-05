@@ -1,0 +1,6 @@
+{
+  "name": "Brindlewick data map",
+  "locationAliases": { "eu-central-1": "DE" },
+  "requireConsentReference": true,
+  "failOn": "warning"
+}

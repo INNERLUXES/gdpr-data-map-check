@@ -1,0 +1,111 @@
+gdpr-data-map-check: examples/messy/data-map.csv
+input: examples/messy/data-map.csv (1 file: 1 CSV data map; 18 records)
+config: examples/config.json (Brindlewick data map): 13 lawful basis aliases, 27 category aliases, 1 location alias; consent reference required; minimum severity info; fail on warning
+rules: missing-purpose (error); missing-lawful-basis (error); unknown-lawful-basis (error); missing-category (warning); special-category-without-condition (error); criminal-offence-data (warning); missing-retention (error); open-ended-retention (error); unclear-retention (warning); missing-location (warning); transfer-without-safeguard (error); unknown-safeguard (error); adequacy-unconfirmed (warning); derogation-transfer (info); consent-without-reference (warning); processor-without-agreement (warning); missing-owner (warning); duplicate-row (warning); invalid-record (error); unreadable-file (error); unparsable-file (error)
+map: 17 records in 5 systems: 3 special category, 1 criminal offence, 7 transfers out of the EU/EEA, 10 with a processor or recipient
+lawful bases: consent 2, contract 5, legal obligation 3, legitimate interests 5, none 1, unknown 1
+findings: 19 (9 error, 9 warning, 1 info)
+
+Systems (5)
+
+  system     records  special  criminal  transfers  findings
+  shop       7        0        0         3          7
+  hr         4        3        1         1          3
+  support    3        0        0         2          5
+  analytics  2        0        0         1          3
+  marketing  1        0        0         0          0
+
+Transfers out of the EU/EEA (7)
+
+  system     store      field              to         safeguard          at
+  shop       customers  email              US         SCCs               examples/messy/data-map.csv:2
+  shop       customers  marketing opt-in   US         adequacy decision  examples/messy/data-map.csv:5
+  shop       customers  gift note address  Morocco    Art. 49(1)(b)      examples/messy/data-map.csv:8
+  hr         staff      background check   UK (GB)    adequacy decision  examples/messy/data-map.csv:11
+  support    tickets    call notes         Germny     -                  examples/messy/data-map.csv:13
+  support    tickets    phone number       India      -                  examples/messy/data-map.csv:14
+  analytics  events     device id          Singapore  Privacy Shield     examples/messy/data-map.csv:16
+
+Findings (19)
+
+  ERROR    missing-lawful-basis                examples/messy/data-map.csv:4
+           the field "date of birth" of shop/customers has no lawful basis
+           fix: name the lawful basis of Article 6(1) the processing rests on: consent, contract, legal obligation, vital interests, public task or legitimate interests
+
+  ERROR    special-category-without-condition  examples/messy/data-map.csv:9
+           the field "sick notes" of hr/staff is special category data (health) and names no condition of Article 9(2)
+           fix: name the condition of Article 9(2) the processing rests on, such as explicit consent, employment law or health care, or stop collecting the field
+
+  ERROR    open-ended-retention                examples/messy/data-map.csv:12
+           the field "face photo" of hr/staff is kept "forever", with no end
+           fix: set an end to the retention, or the event after which the data is erased, with a period
+
+  ERROR    missing-purpose                     examples/messy/data-map.csv:13
+           the field "call notes" of support/tickets has no purpose
+           fix: write the specific purpose the field is collected and used for
+
+  ERROR    transfer-without-safeguard          examples/messy/data-map.csv:13
+           the field "call notes" of support/tickets goes to Germny (not a place the tool knows, so taken as outside the EU/EEA, did you mean "Germany"?), outside the EU/EEA, with no transfer safeguard
+           fix: name the safeguard of the transfer: an adequacy decision, standard contractual clauses, binding corporate rules or another safeguard of Article 46, or keep the data in the EU/EEA
+
+  ERROR    transfer-without-safeguard          examples/messy/data-map.csv:14
+           the field "phone number" of support/tickets goes to India (not a place the tool knows, so taken as outside the EU/EEA), outside the EU/EEA, with no transfer safeguard
+           fix: name the safeguard of the transfer: an adequacy decision, standard contractual clauses, binding corporate rules or another safeguard of Article 46, or keep the data in the EU/EEA
+
+  ERROR    unknown-lawful-basis                examples/messy/data-map.csv:15
+           the field "customer id" of support/tickets has the lawful basis "goodwill", which is not one of the six of Article 6(1) or a known alias
+           fix: write one of the six lawful bases, or add the words your team uses to lawfulBasisAliases in the configuration
+
+  ERROR    unknown-safeguard                   examples/messy/data-map.csv:16
+           the field "device id" of analytics/events names the transfer safeguard "Privacy Shield", which is not an adequacy decision, a safeguard of Article 46 or a derogation of Article 49
+           fix: write the safeguard as one the regulation names, such as SCCs, BCRs or adequacy decision
+
+  ERROR    invalid-record                      examples/messy/data-map.csv:19
+           this row has 3 fields and the header has 17; the row is not checked
+           fix: correct the record at the line named
+
+  WARNING  unclear-retention                   examples/messy/data-map.csv:4
+           the field "date of birth" of shop/customers has the retention "until the account is closed", in which the tool finds no period (a number with days, weeks, months or years, or an ISO 8601 duration)
+           fix: write the period as a number with a unit, such as 90 days or 2 years after the last order
+
+  WARNING  adequacy-unconfirmed                examples/messy/data-map.csv:5
+           the field "marketing opt-in" of shop/customers goes to US on an adequacy decision, which covers only organisations certified under the EU-US Data Privacy Framework; check that the recipient is covered
+           fix: check the adequacy page of the European Commission and the scope of the decision; for the United States, check that the recipient is certified under the Data Privacy Framework, or use another safeguard
+
+  WARNING  consent-without-reference           examples/messy/data-map.csv:5
+           the field "marketing opt-in" of shop/customers rests on consent and names no consent mechanism or reference that shows how consent is recorded
+           fix: name where consent is recorded and how it can be withdrawn, such as the consent banner, the form or the record that stores it
+
+  WARNING  processor-without-agreement         examples/messy/data-map.csv:6
+           the field "card token" of shop/orders goes to the processor or recipient "Paybridge", and no agreement is named
+           fix: name the data processing agreement or other contract with the processor, or write internal when no one outside handles the data
+
+  WARNING  duplicate-row                       examples/messy/data-map.csv:7
+           the field "card token" of shop/orders is listed again with the same purpose; the first record is at examples/messy/data-map.csv:6
+           fix: merge the two records into one, or write the purpose that tells them apart
+
+  WARNING  criminal-offence-data               examples/messy/data-map.csv:11
+           the field "background check" of hr/staff is data on criminal convictions and offences; Article 10 allows it only under official authority or a law that permits it, and the record names no such basis
+           fix: check that the processing is under official authority or allowed by Union or Member State law, and name that law in the condition column
+
+  WARNING  missing-owner                       examples/messy/data-map.csv:14
+           the field "phone number" of support/tickets has no owner
+           fix: name the person or team who answers for the field and keeps its entry up to date
+
+  WARNING  missing-category                    examples/messy/data-map.csv:17
+           the field "ip address" of analytics/events has no category, so the tool cannot tell whether it is special category data
+           fix: write the category of the data, such as contact, identity, financial, location or health
+
+  WARNING  missing-location                    examples/messy/data-map.csv:17
+           the field "ip address" of analytics/events has no storage location, so the tool cannot tell whether it leaves the EU/EEA
+           fix: write the country where the data is stored, as a name or a two-letter code
+
+  INFO     derogation-transfer                 examples/messy/data-map.csv:8
+           the field "gift note address" of shop/customers goes to Morocco on a derogation of Article 49, which is meant for a specific situation and not for a regular transfer
+           fix: check that the transfer is occasional and fits one of the situations of Article 49(1), or put an adequacy decision or a safeguard of Article 46 in place
+
+note: examples/messy/data-map.csv: 1 column the tool does not read was left out: "notes"
+
+This check reads the data map as it is written. It is an engineering aid, not legal advice: it does not see the data itself, decide whether a lawful basis, an Article 9 condition or a transfer safeguard fits the processing, or replace a review by your data protection officer or a lawyer (docs/limits.md).
+
+RESULT: FAIL - 18 findings at or above warning (9 error, 9 warning, 1 info)

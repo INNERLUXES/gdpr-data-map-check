@@ -1,0 +1,30 @@
+gdpr-data-map-check: examples/clean/data-map.json
+input: examples/clean/data-map.json (1 file: 1 JSON data map; 5 records)
+config: built-in defaults: 13 lawful basis aliases, 27 category aliases, 0 location aliases; consent reference not required; minimum severity info; fail on error
+rules: missing-purpose (error); missing-lawful-basis (error); unknown-lawful-basis (error); missing-category (warning); special-category-without-condition (error); criminal-offence-data (warning); missing-retention (error); open-ended-retention (error); unclear-retention (warning); missing-location (warning); transfer-without-safeguard (error); unknown-safeguard (error); adequacy-unconfirmed (warning); derogation-transfer (info); consent-without-reference (warning); processor-without-agreement (warning); missing-owner (warning); duplicate-row (warning); invalid-record (error); unreadable-file (error); unparsable-file (error)
+map: 5 records in 3 systems: 1 special category, 0 criminal offence, 2 transfers out of the EU/EEA, 2 with a processor or recipient
+lawful bases: consent 1, public task 3, legitimate interests 1
+findings: 0
+
+Systems (3)
+
+  system   records  special  criminal  transfers  findings
+  loans    3        1        0         1          0
+  events   1        0        0         1          0
+  website  1        0        0         0          0
+
+Transfers out of the EU/EEA (2)
+
+  system  store     field         to                safeguard          at
+  loans   members   email         Switzerland (CH)  adequacy decision  examples/clean/data-map.json:5
+  events  bookings  phone number  US                SCCs               examples/clean/data-map.json:7
+
+Findings (0)
+
+  none
+
+note: examples/clean/data-map.json: 1 key the tool does not read was left out: "library"
+
+This check reads the data map as it is written. It is an engineering aid, not legal advice: it does not see the data itself, decide whether a lawful basis, an Article 9 condition or a transfer safeguard fits the processing, or replace a review by your data protection officer or a lawyer (docs/limits.md).
+
+RESULT: PASS - no finding at or above error
