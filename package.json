@@ -1,0 +1,52 @@
+{
+  "name": "gdpr-data-map-check",
+  "version": "1.0.0",
+  "description": "GDPR compliance data map check: reads a CSV or JSON data map or record of processing activities that lists personal data fields with their system, category, purpose, lawful basis, Article 9 condition, retention, processor, location, transfer safeguard and owner, and reports fields with no purpose or lawful basis, special category data with no Article 9 condition, criminal offence data, missing or open-ended retention, transfers out of the EU/EEA with no safeguard, processors with no agreement, missing owners and duplicate rows, with a summary per system. Text, JSON, CSV and GitHub annotation output, exit codes for a pipeline, no dependencies. An engineering aid, not legal advice.",
+  "type": "module",
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "bin": {
+    "gdpr-data-map-check": "bin/gdpr-data-map-check.js"
+  },
+  "files": [
+    "bin",
+    "src",
+    "docs",
+    "examples",
+    "research",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "node --test \"test/*.test.js\"",
+    "test:coverage": "node --test --experimental-test-coverage \"test/*.test.js\"",
+    "check": "node tools/check.mjs",
+    "example": "node tools/example.mjs"
+  },
+  "keywords": [
+    "gdpr",
+    "gdpr-compliance",
+    "privacy",
+    "data-protection",
+    "ropa",
+    "record-of-processing",
+    "data-map",
+    "privacy-by-design",
+    "lawful-basis",
+    "data-transfer",
+    "csv",
+    "cli"
+  ],
+  "author": "INNERLUXES <info@innerluxes.dev>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/INNERLUXES/gdpr-data-map-check.git"
+  },
+  "homepage": "https://innerluxes.dev/software-development/gdpr-compliance"
+}
